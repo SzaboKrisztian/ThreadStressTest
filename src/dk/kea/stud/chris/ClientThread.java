@@ -31,32 +31,36 @@ public class ClientThread implements Runnable {
 
   @Override
   public void run() {
-    for (int i = 0; i < noMessages; i++) {
+    if (socket != null) {
+      for (int i = 0; i < noMessages; i++) {
+        try {
+          out.println("SPAM SPAM SPAM");
+          in.readLine();
+        } catch (IOException e) {
+          System.out.println("Error receiving server reply.");
+        }
+        try {
+          Thread.sleep(interval);
+        } catch (InterruptedException e) {
+          System.out.println(Thread.currentThread().getName() + ", interrupted.");
+        }
+      }
       try {
-        out.println("SPAM SPAM SPAM");
+        out.println(".");
         in.readLine();
       } catch (IOException e) {
         System.out.println("Error receiving server reply.");
       }
       try {
-        Thread.sleep(interval);
-      } catch (InterruptedException e) {
-        System.out.println(Thread.currentThread().getName() + ", interrupted.");
+        out.close();
+        in.close();
+        socket.close();
+      } catch (IOException e) {
+        System.out.println("Exception on closing the IO.");
       }
+      System.out.println(Thread.currentThread().getName() + " finished job successfully.");
+    } else {
+      System.out.println(Thread.currentThread().getName() + " ended prematurely.");
     }
-    try {
-      out.println(".");
-      in.readLine();
-    } catch (IOException e) {
-      System.out.println("Error receiving server reply.");
-    }
-    try {
-      out.close();
-      in.close();
-      socket.close();
-    } catch (IOException e) {
-      System.out.println("Exception on closing the IO.");
-    }
-    System.out.println(Thread.currentThread().getName() + " finished job successfully.");
   }
 }

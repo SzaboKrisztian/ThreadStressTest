@@ -7,11 +7,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerThread implements Runnable {
+  private static int clientCount = 1;
+  private int noClient;
   private Socket socket;
   private PrintWriter out;
   private BufferedReader in;
 
   public ServerThread(Socket socket) {
+    this.noClient = clientCount++;
     this.socket = socket;
     try {
       out = new PrintWriter(socket.getOutputStream(), true);
@@ -19,6 +22,7 @@ public class ServerThread implements Runnable {
     } catch (IOException e) {
       System.out.println("Error initializing IO streams.");
     }
+    System.out.println("Client #" + noClient + " connected.");
   }
 
   private void disconnect() {
@@ -46,5 +50,6 @@ public class ServerThread implements Runnable {
     } while (!input.equals("."));
 
     disconnect();
+    System.out.println("Client #" + noClient + " disconnected.");
   }
 }
