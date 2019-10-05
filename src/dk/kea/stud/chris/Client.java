@@ -20,7 +20,7 @@ public class Client {
       port = 12345;
     } else {
       try {
-        port = Integer.parseInt(scn.nextLine());
+        port = Integer.parseInt(input);
       } catch (NumberFormatException e) {
         System.out.println("Invalid input; using port 12345");
         port = 12345;

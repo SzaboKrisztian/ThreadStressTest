@@ -40,7 +40,7 @@ public class Server {
       port = 12345;
     } else {
       try {
-        port = Integer.parseInt(scn.nextLine());
+        port = Integer.parseInt(input);
         if (port < 0 || port > 65535) {
           System.out.println("Invalid input; using port 12345");
           port = 12345;
